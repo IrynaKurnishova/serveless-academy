@@ -1,5 +1,4 @@
 const { program } = require('commander');
-require('dotenv').config();
 const token = process.env.TELEGRAM_TOKEN;
 const chatId = process.env.CHAT_ID;
 const TelegramBot = require('node-telegram-bot-api');

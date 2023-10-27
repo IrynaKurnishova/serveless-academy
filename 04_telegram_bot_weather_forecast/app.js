@@ -34,6 +34,7 @@ function sendIntervalChoice(chatId) {
 
 function sendWeatherMessage(interval) {
     return async (chatId) => {
+        console.log(chatId)
         const result = await getSearchResults();
         const filteredData = interval === 6 ? result.filter((_, index) => index % 2 === 0) : result;
         const mainMessage = filteredData.map((data) => {

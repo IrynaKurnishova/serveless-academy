@@ -1,5 +1,6 @@
 function uniqueValues(arrOfAllWords) {
-    return Array.from(new Set(arrOfAllWords));
+    const uniqueSet = new Set(arrOfAllWords);
+    return Array.from(uniqueSet);
 }
 
 function existInAllFiles(arrOfAllFilesArr) {
@@ -28,15 +29,8 @@ function existInAtLeastTen(arrOfAllFilesArr) {
         });
     });
 
-    const wordsInAtLeastTen = [];
-    wordCounts.forEach((count, word) => {
-        if (count >= 10) {
-            wordsInAtLeastTen.push(word);
-        }
-    });
-
-    return wordsInAtLeastTen;
+    const wordsInAtLeastTen = Array.from(wordCounts).filter(([, count]) => count >= 10);
+    return wordsInAtLeastTen.map(([word]) => word);
 }
-
 
 module.exports = {uniqueValues, existInAllFiles, existInAtLeastTen}

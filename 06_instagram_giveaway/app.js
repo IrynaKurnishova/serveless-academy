@@ -1,34 +1,33 @@
-const fs = require('fs').promises;
+const fs = require('fs');
 const path = require('path');
 const directoryPath = './2kk_words_400x400';
 const {uniqueValues, existInAllFiles, existInAtLeastTen} = require('./functions')
 
-async function mainProgram() {
+function mainProgram() {
     try {
-        const arrOfAllFilesArr = await readAllFiles();
+        const arrOfAllFilesArr = readAllFiles();
         if (arrOfAllFilesArr) {
-            const uniqueWords = uniqueValues(arrOfAllFilesArr.flat())
-            const uniqueWordsExistsInAllFiles = existInAllFiles(arrOfAllFilesArr)
-            const uniqueWordsExistsIn10Files = existInAtLeastTen(arrOfAllFilesArr)
-            console.log(uniqueWords.length)
-            console.log(uniqueWordsExistsInAllFiles.length)
-            console.log(uniqueWordsExistsIn10Files.length)
+            const uniqueWords = uniqueValues(arrOfAllFilesArr.flat());
+            const uniqueWordsExistsInAllFiles = existInAllFiles(arrOfAllFilesArr);
+            const uniqueWordsExistsIn10Files = existInAtLeastTen(arrOfAllFilesArr);
+
+            console.log(`Unique values: ${uniqueWords.length}`);
+            console.log(`Values exist in all files: ${uniqueWordsExistsInAllFiles.length}`);
+            console.log(`Values exist in at least ten files: ${uniqueWordsExistsIn10Files.length}`);
         }
     } catch (error) {
         console.error('Error while reading the files:', error);
     }
 }
 
-async function readAllFiles() {
+function readAllFiles() {
     try {
-        const files = await fs.readdir(directoryPath);
-        const allFileContents = await Promise.all(
-            files.map(async (file) => {
-                const filePath = path.join(directoryPath, file);
-                const data = await fs.readFile(filePath, 'utf8');
-                return data.split('\n');
-            })
-        );
+        const files = fs.readdirSync(directoryPath);
+        const allFileContents = files.map(file => {
+            const filePath = path.join(directoryPath, file);
+            const data = fs.readFileSync(filePath, 'utf8');
+            return data.split('\n');
+        });
         return allFileContents;
     } catch (error) {
         throw error;
@@ -36,3 +35,4 @@ async function readAllFiles() {
 }
 
 mainProgram();
+
